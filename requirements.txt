@@ -1,0 +1,4 @@
+trimesh
+matplotlib
+opencv-python
+pyrender

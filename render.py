@@ -64,7 +64,7 @@ for synset_id in shapenet_synsets: # Traverse all categories
          shapenet_obj = os.path.join(shapenet_base_path, cat_list[i])
          
 
-         for i in range(4): # Render each object from 4 different views
+         for i in range(5): # Render each object from 4 different views
 
             scene = c_render.get_3d_obj(shapenet_obj)
 
@@ -78,16 +78,31 @@ for synset_id in shapenet_synsets: # Traverse all categories
             #print()
 
             #render
+  
             yfov_degrees = 60  
             yfov_radians = np.radians(yfov_degrees)
-            camera = pyrender.PerspectiveCamera(yfov=yfov_radians)
+            aspect_ratio =1.0 # square
+            camera = pyrender.PerspectiveCamera(yfov=yfov_radians, aspectRatio=aspect_ratio)
 
             scene.add(camera, pose= camera_pose)
             light = pyrender.PointLight(color=[1.0, 1.0, 1.0], intensity=5.0)
             scene.add(light)
 
+
+            camera_intrinsics = camera.get_projection_matrix()
+            
+            #print("INTRINSICS", camera_intrinsics)
+            #print("EXTRINSIC", camera_pose)
+
+            #print("\n\n")
+
+            camera_matrix = {
+                  'K': camera_intrinsics,
+                  'RT': camera_pose
+               }
+
             c_render.render_scene(scene, suffix_counter, os.path.join(output_dir, str(synset_id)))
-            c_render.save_camera_matrix(camera_pose, suffix_counter, os.path.join(output_dir, str(synset_id)))
+            c_render.save_camera_matrix(camera_matrix, suffix_counter, os.path.join(output_dir, str(synset_id)))
             
             suffix_counter+=1
          

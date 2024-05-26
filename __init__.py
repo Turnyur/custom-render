@@ -58,9 +58,9 @@ def get_3d_obj(file_path:str)-> trimesh.Scene:
 
 
     
-def save_camera_matrix(camera_pose, suffix, output_path):
+def save_camera_matrix(camera_matrix, suffix, output_path):
     #projection_matrix = camera.get_projection_matrix()
-    projection_matrix = camera_pose
+    projection_matrix = camera_matrix
 
     #index_str = str(object_category_list.index(file_dir))
     output_filename = "camera_" + str(suffix) + ".mat"
